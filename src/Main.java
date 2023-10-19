@@ -37,7 +37,7 @@ class Calculator {
         Operator.add('-');
         Operator.add('*');
         Operator.add('/');
-        int quantityRoman = 0, quantityArabian = 0;//создаем переменные для счета римских и арабских цифр
+        int quantityRoman = 0, quantityArabian = 0, quantityOperator = 0;//создаем переменные для счета римских и арабских цифр
         boolean bool;//создаем булевую переменную для определения римской либо арабской системы счисления
         for (int i = 0; i < array.length; i++) {//проходимся по чаровому массиву
             if (!Roman.contains(array[i]) && !Operator.contains(array[i]) && !Number.contains(array[i])) {
@@ -49,9 +49,15 @@ class Calculator {
             if (Number.contains(array[i])) {//считаем колличество символов относящихся к арабским цифрам
                 ++quantityArabian;
             }
+            if (Operator.contains(array[i])) {//считаем колличество операторов
+                ++quantityOperator;
+            }
         }
         if (quantityRoman != 0 && quantityArabian != 0) { //проверяем что одновременно нет арабских и римских чисел
             throw new calculator.ExceptionForCalculator("Одновременно используются разные системы счисления");
+        }
+        if (quantityOperator > 1){
+            throw new calculator.ExceptionForCalculator("В примере больше одного оператора");
         }
         if (quantityRoman != 0) {// проверка на то какая система счисления используется
             bool = true;
@@ -137,11 +143,11 @@ class Calculator {
         System.out.println(ArabicToRoman(result));  //вывод ответа с предварительным обратным преобразованием в римские цифры
     }
     static void ResultArabian(String[] arrayString, char operator)throws calculator.ExceptionForCalculator {
-        float number1 = Integer.parseInt(arrayString[0]), number2 = Integer.parseInt(arrayString[1]); //преобразование строкового массива в числа
+        int number1 = Integer.parseInt(arrayString[0]), number2 = Integer.parseInt(arrayString[1]); //преобразование строкового массива в числа
         if(number1 > 10 | number2 > 10){    //проверка чтобы числа не были больше 10
             throw new calculator.ExceptionForCalculator("Числа не могут быть больше 10");
         }
-        float result = 0;
+        int result = 0;
         switch (operator){
             case '+': result = number1 + number2;
                 break;
